@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "C:\\xampp\\htdocs\\argon"
+		},
+		{
+			"path": "..\\..\\.."
+		},
+		{
+			"path": "c:\\xampp\\htdocs\\Proyek-2"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "argon"
+	}
+}
