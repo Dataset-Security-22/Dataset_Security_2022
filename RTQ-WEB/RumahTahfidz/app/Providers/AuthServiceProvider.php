@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Role;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,20 +27,36 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define("super_admin", function($user) {
-            return $user->getRole->keterangan == "Super Admin";
+        Gate::define("super_admin", function ($user) {
+            if (empty($user->getHakAkses->getRole)) {
+                return redirect("/app/logout");
+            } else {
+                return Session::get("id_role") == "1";
+            }
         });
 
-        Gate::define("admin", function($user) {
-            return $user->getRole->keterangan == "Admin";
+        Gate::define("admin", function ($user) {
+            if (empty($user->getHakAkses->getRole)) {
+                return redirect("/app/logout");
+            } else {
+                return $user->getHakAkses->getRole->id == "2";
+            }
         });
 
-        Gate::define("asatidz", function($user) {
-            return $user->getRole->keterangan == "Asatidz";
+        Gate::define("asatidz", function ($user) {
+            if (empty($user->getHakAkses->getRole)) {
+                return redirect("/app/logout");
+            } else {
+                return $user->getHakAkses->getRole->id == "3";
+            }
         });
 
-        Gate::define("santri", function($user) {
-            return $user->getRole->keterangan == "Santri";
+        Gate::define("santri", function ($user) {
+            if (empty($user->getHakAkses->getRole)) {
+                return redirect("/app/logout");
+            } else {
+                return $user->getHakAkses->getRole->id == "4";
+            }
         });
     }
 }

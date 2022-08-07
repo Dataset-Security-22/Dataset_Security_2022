@@ -10,22 +10,26 @@ class StatusAbsenController extends Controller
     public function index()
     {
         $data = [
-            "data_status" => StatusAbsen::orderBy("keterangan", "DESC")->get()
+            "data_status" => StatusAbsen::orderBy("keterangan_absen", "DESC")->get()
         ];
 
-        return view("app.super_admin.status_absen.v_index", $data);
+        return view("app.super_admin.data_master.status_absen.v_index", $data);
     }
 
     public function store(Request $request)
     {
-        $cek = StatusAbsen::where("keterangan", $request->keterangan)->count();
+        $this->validate($request, [
+            "keterangan_absen" => "required"
+        ]);
+
+        $cek = StatusAbsen::where("keterangan_absen", $request->keterangan_absen)->count();
 
         if ($cek > 0) {
-            return redirect()->back();
+            return redirect()->back()->with("message", "<script>Swal.fire('Error', 'Tidak Boleh Duplikasi Data', 'error');</script>")->withInput();
         } else {
             StatusAbsen::create($request->all());
 
-            return redirect()->back();
+            return redirect()->back()->with("message", "<script>Swal.fire('Berhasil', 'Data Berhasil di Tambah', 'success');</script>")->withInput();
         }
     }
 
@@ -35,21 +39,25 @@ class StatusAbsenController extends Controller
             "edit" => StatusAbsen::where("id", $request->id)->first()
         ];
 
-        return view("app.super_admin.status_absen.v_edit", $data);
+        return view("app.super_admin.data_master.status_absen.v_edit", $data);
     }
 
     public function update(Request $request)
     {
-        $cek = StatusAbsen::where("keterangan", $request->keterangan)->count();
+        $this->validate($request, [
+            "keterangan_absen" => "required"
+        ]);
 
-        if ($cek > 0) {
-            return redirect()->back();
+        $count = StatusAbsen::where("keterangan_absen", $request->keterangan_absen)->count();
+
+        if ($count > 0) {
+            return back()->with(["message" => "<script>Swal.fire('Error', 'Tidak Boleh Duplikasi Data', 'error');</script>"]);
         } else {
-            StatusAbsen::where("id", $request->id)->update([
-                "keterangan" => $request->keterangan
+            StatusAbsen::where("id", decrypt($request->id))->update([
+                "keterangan_absen" => $request->keterangan_absen
             ]);
 
-            return redirect()->back();
+            return back()->with(["message" => "<script>Swal.fire('Berhasil', 'Data Berhasil di Simpan', 'success');</script>"])->withInput();
         }
     }
 
@@ -57,6 +65,6 @@ class StatusAbsenController extends Controller
     {
         StatusAbsen::where("id", $id)->delete();
 
-        return redirect()->back();
+        return back()->with(["message" => "<script>Swal.fire('Berhasil', 'Data Berhasil di Hapus', 'success');</script>"]);
     }
 }

@@ -11,8 +11,5 @@ class StatusAbsen extends Model
 
     protected $table = "tb_status_absen";
 
-    protected $fillable = ["keterangan"];
-
-    public $timestamps = false;
-
+    protected $fillable = ["keterangan_absen"];
 }

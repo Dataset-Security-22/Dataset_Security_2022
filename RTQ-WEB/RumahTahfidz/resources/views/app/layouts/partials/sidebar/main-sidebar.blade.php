@@ -1,137 +1,93 @@
-<?php
-use App\Models\Profil;
-$data = Profil::select("nama", "singkatan")->first();
-?>
-<div class="main-sidebar sidebar-style-2">
-    <aside id="sidebar-wrapper">
-        <div class="sidebar-brand">
-            <a href="{{ url('/app/admin/') }}">
-                @if(empty($data->nama))
-                Anonymus
-                @else
-                {{ $data->nama }}
-                @endif
-            </a>
-        </div>
-        <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ url('/app/admin') }}">
-                @if(empty($data->singkatan))
-                HIN
-                @else
-                {{ $data->singkatan }}
-                @endif
+@php
+$kategori_penilaian = \App\Models\KategoriPenilaian::all();
+$user = \App\Models\User::where('id', Session::get('id'))->first();
+$akses_saya = \App\Models\HakAkses::where('id_user', $user->id)->get();
+$profil = \App\Models\ProfilWeb::select('nama')->first();
+@endphp
+<div class="col-md-3 left_col menu_fixed">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <a href="javascript:void(0)" class="site_title">
+                <span>
+                    @if (empty($profil))
+                        RTQ
+                    @else
+                        @if (strlen($profil->nama) > 15)
+                            RTQ ...
+                        @else
+                            {{ $profil->nama }}
+                        @endif
+                    @endif
+                </span>
             </a>
         </div>
 
-        <ul class="sidebar-menu">
-            <li class="menu-header">Home</li>
-            <li class="dropdown {{ Request::segment(3) == "home" ? "active" : "" }}">
-                <a href="{{ url('/app/sistem/home') }}" class="nav-link">
-                    <i class="fa fa-home"></i>
-                    <span>Home</span>
-                </a>
-            </li>
-            <li class="menu-header">Menu</li>
-            <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Layout</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
-                    <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
-                    <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
+        <div class="clearfix"></div>
+        <div class="profile clearfix">
+            <div class="profile_pic">
+                <img src="{{ $user->gambar }}" onerror="this.onerror=null; this.src='{{ url('gambar/no-images.png') }}'"
+                    alt="{{ $user->nama }}" class="img-circle profile_img">
+            </div>
+            <div class="profile_info">
+                <span>Selamat Datang,</span>
+                <h2>{{ $user->nama }}</h2>
+            </div>
+        </div>
+        <!-- /menu profile quick info -->
+
+        <br />
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+                <h3>Hak Akses</h3>
+                <div class="form-group p-1">
+                    <select class="form-control" id="hak_akses">
+                        <option value="">Pilih Hak Akses</option>
+                        @foreach ($akses_saya as $item)
+                            <option value="{{ $item->id }}"
+                                {{ $user->id_hak_akses == $item->id ? 'selected' : '' }}>
+                                {{ $item->getRole->keterangan }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <h3>Menu</h3>
+                <ul class="nav side-menu">
+                    <li class="{{ Request::segment(3) == 'home' ? 'active' : '' }}">
+                        <a href="{{ url('/app/sistem/home') }}">
+                            <i class="fa fa-home"></i>Home
+                        </a>
+                    </li>
+
+
+                    @include('app.layouts.partials.sidebar.menu.m_super')
+
+                    @include('app.layouts.partials.sidebar.menu.m_admin')
+
+                    <li class="{{ Request::segment(3) == 'profil/user' ? 'active' : '' }}">
+                        <a href="{{ url('/app/sistem/profil/user') }}">
+                            <i class="fa fa-user"></i>Profil Saya
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::segment(3) == 'informasi_login' ? 'active' : '' }}">
+                        <a href="{{ url('/app/sistem/informasi_login') }}">
+                            <i class="fa fa-key"></i>Informasi Login
+                        </a>
+                    </li>
                 </ul>
-            </li>
-            @can("admin")
-            <li class="{{ Request::segment(3) == "santri" ? "active" : "" }}">
-                <a class="nav-link" href="{{ url('/app/sistem/santri') }}">
-                    <i class="fa fa-user"></i>
-                    <span>Siswa</span>
-                </a>
-            </li>
-            <li class="{{ Request::segment(3) == "asatidz" ? "active" : "" }}">
-                <a class="nav-link" href="{{ url('/app/sistem/asatidz') }}">
-                    <i class="fa fa-user"></i>
-                    <span>Asatidz</span>
-                </a>
-            </li>
-            <li class="{{ Request::segment(3)=='absensi' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/app/sistem/absensi') }}">
-                    <i class="fa fa-book"></i>
-                    <span>Absensi</span>
-                </a>
-            </li>   
-            @endcan
-            @can("super_admin")
-            <li class="{{ Request::segment(3)=="admin_cabang" ? "active" : "" }}">
-                <a class="nav-link" href="{{ url('/app/sistem/admin_cabang') }}">
-                    <i class="fa fa-users"></i>
-                    <span>Admin Cabang</span>
-                </a>
-            </li>
-            @endcan
-            <li class="menu-header"> Web </li>
-            <li class="{{ Request::segment(3) == "profil" ? "active" : "" }}">
-                <a class="nav-link" href="{{ url('/app/sistem/profil') }}">
-                    <i class="fa fa-search"></i>
-                    <span>Profil</span>
-                </a>
-            </li>
-            <li class="menu-header">Settings</li>
-            @can("super_admin")
-            <li class="{{ Request::segment(3) == "status_absen" ? "active" : "" }}">
-                <a class="nav-link" href="{{ url('/app/sistem/status_absen') }}">
-                    <i class="fa fa-book"></i>
-                    <span>Status Absen</span>
-                </a>
-            </li>
-            <li class="{{ Request::segment(3) == 'cabang' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/app/sistem/cabang') }}">
-                    <i class="fa fa-search"></i>
-                    <span>Cabang</span>
-                </a>
-            </li>
-            <li class="{{ Request::segment(3) == 'jenjang' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/app/sistem/jenjang') }}">
-                    <i class="fa fa-search"></i>
-                    <span>Jenjang</span>
-                </a>
-            </li>
-            <li class="{{ Request::segment(3)=='role' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/app/sistem/role') }}">
-                    <i class="far fa-user"></i>
-                    <span>Role</span>
-                </a>
-            </li>
-            <li class="{{ Request::segment(3)=='users' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/app/sistem/users/') }}">
-                    <i class="far fa-user"></i>
-                    <span>Users</span>
-                </a>
-            </li>
-            @endcan
-            <li class="{{ Request::segment(3)=='pesan' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/app/sistem/pesan') }}">
-                    <i class="fa fa-book"></i>
-                    <span>Pesan</span>
-                </a>
-            </li>
-            <li class="{{ Request::segment(3)=='profil_user' ? 'active' : ''}}">
-                <a class="nav-link" href="{{ url('/app/sistem/profil_user') }}">
-                    <i class="far fa-user"></i>
-                    <span>Profil User</span>
-                </a>
-            </li>
-            <li class="{{ Request::segment(3)=='informasi_login' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/app/sistem/informasi_login') }}">
-                    <i class="fa fa-key"></i>
-                    <span>Informasi Login</span>
-                </a>
-            </li>
-        </ul>
+            </div>
 
-        <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-            <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
-                <i class="fas fa-rocket"></i> Documentation
+        </div>
+        <!-- /sidebar menu -->
+
+        <!-- /menu footer buttons -->
+        <div class="sidebar-footer hidden-small">
+            <a data-toggle="tooltip" data-placement="top" title="Logout" style="width: 100%"
+                href="{{ url('app/logout') }}">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
         </div>
-    </aside>
+    </div>
 </div>

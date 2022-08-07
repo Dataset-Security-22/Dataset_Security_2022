@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class Autentikasi
 {
@@ -17,10 +18,10 @@ class Autentikasi
      */
     public function handle(Request $request, Closure $next, $guard = NULL)
     {
-        if (Auth::guard($guard)->check()) {
-            return $next($request);
+        if (!Session::get("login")) {
+            return redirect("/app/login");
         }
 
-        return redirect("/app/login");
+        return $next($request);
     }
 }

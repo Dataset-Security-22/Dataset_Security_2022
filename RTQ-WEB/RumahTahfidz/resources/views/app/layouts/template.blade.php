@@ -1,52 +1,97 @@
-
+@php
+$user = \App\Models\User::where('id', Session::get('id'))->first();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title> Rumah Tahfidz Quran &mdash; @yield("app_title")</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="{{ url('gambar/logo_ulil.png') }}" />
 
-    <!-- General CSS Files -->
-    @include("app.layouts.partials.css.style")
+    <title>RTQ Ulil Albab | @yield('app_title')</title>
 
-    @include("app.layouts.partials.js.style")
-    <!-- Start GA -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    @include('app.layouts.partials.css.style')
 
-        gtag('config', 'UA-94034622-3');
-    </script>
-    <!-- /END GA -->
+    @yield('app_css')
+
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
+
 </head>
 
-<body>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
 
+            @include('app.layouts.partials.sidebar.main-sidebar')
 
-    <div id="app">
-        @if(session("message"))
-        {!! session("message") !!}
-        @endif
-        <div class="main-wrapper main-wrapper-1">
-            <div class="navbar-bg"></div>
+            @include('app.layouts.partials.navbar.main-navbar')
 
-            @include("app.layouts.partials.navbar.main-navbar")
-
-            @include("app.layouts.partials.sidebar.main-sidebar")
-
-            <!-- Main Content -->
-            <div class="main-content">
-                @yield("app_content")
+            <!-- page content -->
+            <div class="right_col" role="main">
+                @yield('app_content')
             </div>
+            <!-- /page content -->
 
-            @include("app.layouts.partials.footer.main-footer")
-
+            @include('app.layouts.partials.footer.main-footer')
         </div>
     </div>
 
-    @yield("app_scripts")
+    @include('app.layouts.partials.js.style')
+    @if (session('message'))
+        {!! session('message') !!}
+    @endif
+    @yield('app_scripts')
+
+    @can('super_admin')
+        @if (Request::segment(3) != 'laporan')
+            <script>
+                $(document).ready(function() {
+                    $("#laporan").removeClass('active');
+                    $("#laporan ul").css('display', 'none')
+                })
+            </script>
+        @endif
+    @endcan
+    @can('admin')
+        @if (Request::segment(3) != 'laporan')
+            <script>
+                $(document).ready(function() {
+                    $("#laporan").removeClass('active');
+                    $("#laporan ul").css('display', 'none')
+                })
+            </script>
+        @endif
+    @endcan
+
+    <script>
+        $(document).ready(function() {
+            $('#hak_akses').change(function() {
+                var id = $(this).val();
+                if (id != "") {
+                    $.ajax({
+                        url: "{{ url('/app/hak_akses/') }}/" + id,
+                        type: "post",
+                        data: {
+                            '_token': "{{ csrf_token() }}",
+                        },
+                        success: function(data) {
+                            if (data == 1) {
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 
     <script>
         function logout() {
@@ -61,16 +106,16 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '{{ url("app/logout") }}',
+                        url: '{{ url('app/logout') }}',
                         type: 'get',
-                        success: function (response) {
+                        success: function(response) {
                             if (response.status == true) {
                                 Swal.fire({
                                     title: 'Selamat!',
                                     text: 'Anda berhasil logout',
                                     icon: 'success'
                                 }).then((result) => {
-                                    location.href = '{{ url("/app/login") }}'
+                                    location.href = '{{ url('/app/login') }}'
                                 })
                             }
                         }
@@ -81,4 +126,5 @@
     </script>
 
 </body>
+
 </html>

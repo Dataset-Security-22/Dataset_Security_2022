@@ -48,13 +48,33 @@ class User extends Authenticatable
         return $this->hasOne(Token::class, "tokenable_id", "id");
     }
 
-    public function getRole()
+    public function getHakAkses()
     {
-        return $this->belongsTo("App\Models\Role", "id_role", "id");
+        return $this->belongsTo(HakAkses::class, "id_hak_akses", "id");
     }
 
-    public function getAdminCabang()
+    public function getAsatidz()
     {
-        return $this->hasOne(AdminCabang::class, "id", "id");
+        return $this->hasOne(Asatidz::class, 'id', 'id');
+    }
+
+    public function getAdminLokasiRt()
+    {
+        return $this->hasOne("App\Models\AdminLokasiRt", "id", "id")->withDefault(["kode_rt" => "NULL"]);
+    }
+
+    public function getWaliSantri()
+    {
+        return $this->hasOne(WaliSantri::class, 'id', 'id');
+    }
+
+    public function getKelasHalaqah()
+    {
+        return $this->hasOne("App\Models\KelasHalaqah", "id_asatidz", "id");
+    }
+
+    public function getAkses()
+    {
+        return $this->belongsTo("App\Models\HakAkses", "id", "id_user");
     }
 }

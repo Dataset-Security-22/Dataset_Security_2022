@@ -1,31 +1,50 @@
-<!-- General JS Scripts -->
-<script src="{{ url('/template') }}/dist/assets/modules/jquery.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/popper.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/tooltip.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/bootstrap/js/bootstrap.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/moment.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/js/stisla.js"></script>
+<!-- jQuery -->
+<script src="{{ url('') }}/vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="{{ url('') }}/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- FastClick -->
+<script src="{{ url('') }}/vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="{{ url('') }}/vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="{{ url('') }}/vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="{{ url('') }}/vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="{{ url('') }}/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="{{ url('') }}/vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="{{ url('') }}/vendors/skycons/skycons.js"></script>
+<!-- Flot -->
+<script src="{{ url('') }}/vendors/Flot/jquery.flot.js"></script>
+<script src="{{ url('') }}/vendors/Flot/jquery.flot.pie.js"></script>
+<script src="{{ url('') }}/vendors/Flot/jquery.flot.time.js"></script>
+<script src="{{ url('') }}/vendors/Flot/jquery.flot.stack.js"></script>
+<script src="{{ url('') }}/vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="{{ url('') }}/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+<script src="{{ url('') }}/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+<script src="{{ url('') }}/vendors/flot.curvedlines/curvedLines.js"></script>
+<!-- DateJS -->
+<script src="{{ url('') }}/vendors/DateJS/build/date.js"></script>
+<!-- JQVMap -->
+<script src="{{ url('') }}/vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="{{ url('') }}/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="{{ url('') }}/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="{{ url('') }}/vendors/moment/min/moment.min.js"></script>
+<script src="{{ url('') }}/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-<!-- JS Libraies -->
-<script src="{{ url('/template') }}/dist/assets/modules/simple-weather/jquery.simpleWeather.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/chart.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/jqvmap/dist/jquery.vmap.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/summernote/summernote-bs4.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
+<script src="{{ url('') }}/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
+</script>
+<!-- Custom Theme Scripts -->
+<script src="{{ url('') }}/build/js/custom.js"></script>
 
-<!-- Page Specific JS File -->
-<script src="{{ url('/template') }}/dist/assets/js/page/index.js"></script>
-
-<!-- Template JS File -->
-<script src="{{ url('/template') }}/dist/assets/js/scripts.js"></script>
-<script src="{{ url('/template') }}/dist/assets/js/custom.js"></script>
+<!-- DataTables -->
+<script src="{{ url('') }}/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="{{ url('') }}/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- END -->
 <script src="{{ url('sweetalert/dist/sweetalert2.all.min.js') }}"></script>
-
-<script src="{{ url('/template') }}/dist/assets/modules/datatables/datatables.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
-<script src="{{ url('/template') }}/dist/assets/js/page/modules-datatables.js"></script>
-<script src="{{ url('jquery-validation/dist/jquery.validate.js') }}"></script>
-<script src="{{ url('jquery-validation/dist/additional-methods.js') }}"></script>
+<script src="{{ url('build/js/jquery.validate.min.js') }}"></script>
+<script src="{{ url('build/js/additional-methods.min.js') }}"></script>

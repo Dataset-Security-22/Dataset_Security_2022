@@ -13,19 +13,23 @@ class JenjangController extends Controller
             "data_jenjang" => Jenjang::orderBy("jenjang", "DESC")->get()
         ];
 
-        return view("app.super_admin.jenjang.v_index", $data);
+        return view("app.super_admin.data_master.jenjang.v_index", $data);
     }
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            "jenjang" => "required"
+        ]);
+
         $cek = Jenjang::where("jenjang", $request->jenjang)->count();
 
         if ($cek > 0) {
-            return redirect()->back();
+            return redirect()->back()->with("message", "<script>Swal.fire('Error', 'Tidak Boleh Duplikasi Data', 'error');</script>")->withInput();
         } else {
             Jenjang::create($request->all());
 
-            return redirect()->back();
+            return redirect()->back()->with("message", "<script>Swal.fire('Berhasil', 'Data Berhasil di Tambah', 'success');</script>")->withInput();
         }
     }
 
@@ -35,21 +39,25 @@ class JenjangController extends Controller
             "edit" => Jenjang::where("id", $request->id)->first()
         ];
 
-        return view("app.super_admin.jenjang.v_edit", $data);
+        return view("app.super_admin.data_master.jenjang.v_edit", $data);
     }
 
     public function update(Request $request)
     {
+        $this->validate($request, [
+            "jenjang" => "required"
+        ]);
+
         $cek = Jenjang::where("jenjang", $request->jenjang)->count();
 
-        if ($cek > 0 ) {
-            return redirect()->back();
+        if ($cek > 0) {
+            return back()->with(["message" => "<script>Swal.fire('Gagal', 'Tidak Boleh Duplikasi Data', 'error');</script>"]);
         } else {
-            Jenjang::where("id", $request->id)->update([
+            Jenjang::where("id", decrypt($request->id))->update([
                 "jenjang" => $request->jenjang
             ]);
 
-            return redirect()->back();
+            return back()->with(["message" => "<script>Swal.fire('Berhasil', 'Data Berhasil di Simpan!', 'success');</script>"])->withInput();
         }
     }
 
@@ -57,6 +65,6 @@ class JenjangController extends Controller
     {
         Jenjang::where("id", $id)->delete();
 
-        return redirect()->back();
+        return back()->with(["message" => "<script>Swal.fire('Berhasil', 'Data Berhasil di Hapus', 'success');</script>"]);
     }
 }
