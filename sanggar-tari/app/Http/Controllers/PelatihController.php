@@ -45,7 +45,7 @@ class PelatihController extends Controller
     {
         return view("/admin/pelatih/addpelatih");
     }
-    
+
 
     /**
      * Store a newly created resource in storage.

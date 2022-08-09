@@ -10,7 +10,7 @@ class FormController extends Controller
     public function index()
     {
     	$data = [
-    		"data_form" => Form::orderBy("nama", "DESC")->get()
+    	    "data_form" => Form::orderBy("nama", "DESC")->get()
     	];
 
     	return view("admin/form/data_form", $data);
@@ -35,5 +35,5 @@ class FormController extends Controller
 
         return redirect()->back();
     }
-    
+
 }
