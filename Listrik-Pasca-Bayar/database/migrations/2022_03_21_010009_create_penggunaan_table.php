@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('penggunaan', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_penggunaan');
             $table->string('id_pelanggan');
             $table->string('bulan');
             $table->year('tahun');

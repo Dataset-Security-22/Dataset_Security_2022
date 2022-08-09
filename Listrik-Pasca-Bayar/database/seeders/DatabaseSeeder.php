@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Petugas::create([
+            "nik_petugas" => "555",
             "nama" => "petugas",
             "alamat" => "Jakarta",
             "no_telepon" => "12345",

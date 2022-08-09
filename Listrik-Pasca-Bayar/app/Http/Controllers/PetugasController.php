@@ -34,17 +34,19 @@ class PetugasController extends Controller
         $cek_double = $petugas->where("nik_petugas", $req->nik_petugas)->count();
 
         if ($cek_double > 0) {
-            return redirect()->back()->with("error", "NIK ".$req->nik_petugas." Sudah Ada");
+            return redirect()->back()->with("error", "NIK " . $req->nik_petugas . " Sudah Ada");
         }
 
         Petugas::create($req->all());
 
         User::create([
             "nama" => $req->nama,
+            "alamat" => $req->alamat,
+            "no_telepon" => $req->no_telepon,
             "saldo" => 0,
             "biaya_admin" => 2000,
             "username" => $req->nik_petugas,
-            "password" => bcrypt($req->nik_petugas."-petugas"),
+            "password" => bcrypt($req->nik_petugas . "-petugas"),
             "role" => 2
         ]);
 
