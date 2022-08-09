@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             "no_telepon" => "12345",
             "saldo" => 0,
             "biaya_admin" => 0,
-            "username" => "ha",
+            "username" => "admin",
             "password" => bcrypt("password"),
             "role" => 1
         ]);
